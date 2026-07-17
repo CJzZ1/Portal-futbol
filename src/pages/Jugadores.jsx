@@ -1,73 +1,106 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-// 1. Set de datos dinámicos de prueba (Simulación de API externa)
+// 1. Datos dinámicos actualizados con imágenes de la carpeta public
 const DATOS_FUTBOLISTAS_MOCK = [
-  { id: 1, nombre: "Lionel Messi", posicion: "Delantero", dorsal: 10, equipo: "Inter Miami", stats: { ritmo: 85, tiro: 92, pase: 91 } },
-  { id: 2, nombre: "Cristiano Ronaldo", posicion: "Delantero", dorsal: 7, equipo: "Al Nassr", stats: { ritmo: 81, tiro: 93, pase: 78 } },
-  { id: 3, nombre: "Kevin De Bruyne", posicion: "Centrocampista", dorsal: 17, equipo: "Manchester City", stats: { ritmo: 74, tiro: 86, pase: 94 } },
-  { id: 4, nombre: "Jude Bellingham", posicion: "Centrocampista", dorsal: 5, equipo: "Real Madrid", stats: { ritmo: 80, tiro: 85, pase: 83 } },
-  { id: 5, nombre: "Kylian Mbappé", posicion: "Delantero", dorsal: 9, equipo: "Real Madrid", stats: { ritmo: 97, tiro: 90, pase: 80 } }
+  { id: 1, nombre: "Lionel Messi", posicion: "Extremo Derecho", media: 92, equipo: "Inter Miami", imagen: "/messi.jpg" },
+  { id: 2, nombre: "Cristiano Ronaldo", posicion: "Delantero Centro", media: 90, equipo: "Al Nassr", imagen: "/ronaldo.jpg" },
+  { id: 3, nombre: "Kevin De Bruyne", posicion: "Centrocampista", media: 91, equipo: "Manchester City", imagen: "/kevin.jpg" },
+  { id: 4, nombre: "Moisés Caicedo", posicion: "Pivote", media: 84, equipo: "Chelsea FC", imagen: "/moises.jpg" }
 ];
 
 export default function Jugadores() {
-  // 2. Estados obligatorios por rúbrica para el rol de Integrante 2
+  // 2. Estados para el control del ciclo de vida de la petición
   const [jugadores, setJugadores] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // 3. useEffect para simular el consumo asíncrono
+  // 3. Simulación asíncrona de consumo de API (Mocking)
   useEffect(() => {
-    const consumirApiFutbol = async () => {
-      try {
-        setLoading(true);
-        // Simulación perfecta de retraso de red (1.5 segundos)
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+    const obtenerJugadores = () => {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          // Cambia a 'true' para probar el renderizado de la interfaz de error
+          const simularError = false;
 
-        // Carga exitosa de los datos en el estado
-        setJugadores(DATOS_FUTBOLISTAS_MOCK);
-        setError(null);
-      } catch (err) {
-        setError("Error al conectar con el servidor de deportes.");
-      } finally {
-        setLoading(false);
-      }
+          if (simularError) {
+            reject("Error 500: No se pudo conectar con el servidor de deportes.");
+          } else {
+            resolve(DATOS_FUTBOLISTAS_MOCK);
+          }
+        }, 1500); // 1.5 segundos de retraso de red
+      });
     };
 
-    consumirApiFutbol();
+    obtenerJugadores()
+      .then((datos) => {
+        setJugadores(datos);
+      })
+      .catch((err) => {
+        setError(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
-  // 4. Renders condicionales según el estado actual de la petición
+  // 4. RENDERIZADO CONDICIONAL
+
+  // Estado de Carga (Spinner)
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] text-white">
-        {/* Spinner animado con Tailwind */}
-        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 border-solid mb-4"></div>
-        <p className="text-xl font-semibold">Cargando jugadores...</p>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mb-4"></div>
+        <p className="text-lg font-semibold">Cargando alineación...</p>
       </div>
     );
   }
 
+  // Estado de Error
   if (error) {
     return (
-      <div className="flex justify-center items-center min-h-[50vh] text-red-500 font-bold text-xl">
-        ❌ {error}
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white px-4">
+        <div className="bg-red-900/50 border border-red-500 text-red-200 p-4 rounded-lg max-w-md text-center">
+          <h2 className="text-xl font-bold mb-2">⚠️ Error de Conexión</h2>
+          <p>{error}</p>
+        </div>
       </div>
     );
   }
 
+  // Estado de Éxito (Renderizado dinámico de tarjetas)
   return (
-    <div className="p-6 max-w-7xl mx-auto text-white">
-      <h1 className="text-3xl font-bold mb-6 text-center text-blue-400">
-        Catálogo de Jugadores
-      </h1>
+    <div className="min-h-screen bg-gray-900 text-white p-6">
+      <header className="mb-8 text-center">
+        <h1 className="text-3xl font-extrabold text-green-400 tracking-wider uppercase">
+          Catálogo de Jugadores
+        </h1>
+        <p className="text-gray-400 text-sm mt-1">Datos actualizados dinámicamente</p>
+      </header>
 
-      {/* Cuadrícula responsiva (CSS Grid) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {/* Cuadrícula Responsiva (CSS Grid lista para meter los componentes visuales) */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
         {jugadores.map((jugador) => (
-          <div key={jugador.id} className="bg-slate-800 p-4 rounded-lg border border-slate-700 shadow-md hover:border-blue-500 transition-colors">
-            <h2 className="text-xl font-bold">{jugador.nombre}</h2>
-            <p className="text-gray-400">{jugador.posicion} - Dorsal {jugador.dorsal}</p>
-            <p className="text-sm text-blue-300 mt-1">{jugador.equipo}</p>
+          <div
+            key={jugador.id}
+            className="bg-gray-800 rounded-xl p-4 border border-gray-700 shadow-lg hover:border-green-500 transition-all duration-300 flex flex-col items-center text-center"
+          >
+            <div className="w-24 h-24 rounded-full overflow-hidden mb-4 bg-gray-700 border-2 border-gray-600">
+              <img
+                src={jugador.imagen}
+                alt={jugador.nombre}
+                className="w-full h-full object-cover"
+                onError={(e) => {
+                  e.target.src = "https://via.placeholder.com/150"; // Imagen de respaldo por si falta algún archivo
+                }}
+              />
+            </div>
+            <h2 className="text-xl font-bold text-white">{jugador.nombre}</h2>
+            <p className="text-green-400 font-semibold text-sm mb-1">{jugador.posicion}</p>
+            <p className="text-gray-400 text-xs mb-3">{jugador.equipo}</p>
+            <div className="bg-gray-900 px-4 py-1.5 rounded-full border border-gray-700">
+              <span className="text-gray-400 text-xs font-bold mr-1">MEDIA:</span>
+              <span className="text-yellow-400 font-black">{jugador.media}</span>
+            </div>
           </div>
         ))}
       </div>
