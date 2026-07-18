@@ -13,12 +13,12 @@ export default function Jugadores() {
         // Simulamos el retraso de red asíncrono que pide la rúbrica
         await new Promise(resolve => setTimeout(resolve, 1000));
         
-        // Datos dinámicos de la API de prueba
+// Datos dinámicos corregidos apuntando a tus archivos locales .jpg limpios
         const datosCargados = [
-          { id: 1, nombre: "Lionel Messi", posicion: "Extremo Derecho", media: 92, equipo: "Inter Miami", imagen: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=300" },
-          { id: 2, nombre: "Cristiano Ronaldo", posicion: "Delantero Centro", media: 90, equipo: "Al Nassr", imagen: "https://images.unsplash.com/photo-1518063319789-7217e6706b04?w=300" },
-          { id: 3, nombre: "Kevin De Bruyne", posicion: "Mediocampista", media: 91, equipo: "Manchester City", imagen: "https://images.unsplash.com/photo-1544698310-74ea9d1c8258?w=300" },
-          { id: 4, nombre: "Moisés Caicedo", posicion: "Pivote", media: 84, equipo: "Chelsea FC", imagen: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=300" }
+          { id: 1, nombre: "Lionel Messi", posicion: "Extremo Derecho", media: 92, equipo: "Inter Miami", imagen: "/messi.jpg" },
+          { id: 2, nombre: "Cristiano Ronaldo", posicion: "Delantero Centro", media: 90, equipo: "Al Nassr", imagen: "/ronaldo.jpg" },
+          { id: 3, nombre: "Kevin De Bruyne", posicion: "Mediocampista", media: 91, equipo: "Manchester City", imagen: "/kevin.jpg" },
+          { id: 4, nombre: "Moisés Caicedo", posicion: "Pivote", media: 84, equipo: "Chelsea FC", imagen: "/moises.jpg" }
         ];
 
         setFutbolistas(datosCargados);
