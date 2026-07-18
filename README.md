@@ -29,4 +29,8 @@ Este proyecto fue desarrollado colaborativamente como parte del plan de estudios
 
 *   **Daniel Carpio** — Gestión de control de versiones, optimización de recursos multimedia locales y diseño de la interfaz de audio.
 *   **Michael Peralta** — Desarrollo de la lógica de consumo asíncrono de datos, manejo de estados de carga y resolución de conflictos del repositorio.
+<<<<<<< Updated upstream
 *   **Joseph Castro** — Estructuración de componentes visuales, diseño de maquetación y estilizado general de las tarjetas de jugadores.
+=======
+*   **Joseph Castro** — Estructuración de componentes visuales, diseño de maquetación y estilizado general de las tarjetas de jugadores.
+>>>>>>> Stashed changes
