@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter>
       <div className="flex flex-col min-h-screen bg-slate-950 text-white font-sans">
         <Navbar />
-        
+
         <main className="flex-grow container mx-auto px-4">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -26,3 +26,5 @@ function App() {
 }
 
 export default App;
+
+// Test de colaborador
